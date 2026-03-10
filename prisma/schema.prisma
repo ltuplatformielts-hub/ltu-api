@@ -7,7 +7,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id @default(uuid())
+  id        String   @id
   wpUserId  Int?     @unique
   email     String   @unique
   firstName String
