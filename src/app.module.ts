@@ -5,6 +5,7 @@ import { APP_GUARD } from "@nestjs/core";
 import { CommonHeadersMiddleware } from "./common-headers.middleware";
 import { PrismaModule } from "./prisma/prisma.module";
 import { AuthModule } from "./auth/auth.module";
+import { JwtAuthGuard } from "./auth/jwt-auth.guard";
 
 @Module({
   imports: [

@@ -7,7 +7,7 @@ datasource db {
 }
 
 model User {
-  id        String   @id
+  id        String   @id @default(uuid())
   wpUserId  Int?     @unique
   email     String   @unique
   firstName String
@@ -17,8 +17,8 @@ model User {
   role      UserRole @default(STUDENT)
   img       String?
   createdAt DateTime @default(now())
-  updatedAt DateTime
-  username  String?  @unique
+  updatedAt DateTime @updatedAt()
+  username  String   @unique
 }
 
 enum UserRole {
