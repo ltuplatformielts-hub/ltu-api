@@ -2,6 +2,7 @@ import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
 import helmet from "helmet";
 import "dotenv/config";
+import { ValidationPipe } from "@nestjs/common";
 
 async function bootstrap() {
   const PORT = process.env.PORT;
@@ -18,6 +19,13 @@ async function bootstrap() {
     methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
     credentials: true,
   });
+  app.useGlobalPipes(
+    new ValidationPipe({
+      whitelist: true,
+      transform: true,
+      forbidNonWhitelisted: true,
+    }),
+  );
   await app.listen(PORT);
 }
 bootstrap().catch((err) => {
