@@ -6,15 +6,15 @@ import { CommonHeadersMiddleware } from "./common-headers.middleware";
 import { PrismaModule } from "./prisma/prisma.module";
 import { AuthModule } from "./auth/auth.module";
 import { JwtAuthGuard } from "./auth/jwt-auth.guard";
-import { ExamModule } from './exam/exam.module';
-import { EnrollModule } from './enroll/enroll.module';
+import { ExamModule } from "./exam/exam.module";
+import { EnrollModule } from "./enroll/enroll.module";
 
 @Module({
   imports: [
     ThrottlerModule.forRoot([
       {
         ttl: 60000,
-        limit: 10,
+        limit: 100,
       },
     ]),
     PrismaModule,

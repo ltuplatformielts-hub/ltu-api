@@ -31,7 +31,7 @@ enum UserRole {
 model Exam {
   id            String   @id @default(uuid())
   name          String
-  img           String
+  img           String?
   type          ExamType
   timeLimit     Int      @default(0)
   audio         String[]

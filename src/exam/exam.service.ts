@@ -47,16 +47,22 @@ export class ExamService {
           name: search ? { contains: search, mode: "insensitive" } : undefined,
           type: type ? type : undefined,
         },
-        select: { id: true, name: true, createdAt: true },
+        select: { id: true, name: true, img: true, createdAt: true },
         skip,
         take: limit,
         orderBy: {
           createdAt: "desc",
         },
       });
+
+      const totalItems = await this.prisma.exam.count();
+      const totalPage = Math.ceil(totalItems / limit);
+
       return {
         message: "Find exam success.",
         exam: exams,
+        page,
+        totalPage,
       };
     } catch (error) {
       throw new InternalServerErrorException(error);

@@ -56,6 +56,7 @@ export class CreateAuthDto {
   @Trim()
   password: string;
 
+  @IsOptional()
   @IsEnum(UserRole)
   role: UserRole;
 
