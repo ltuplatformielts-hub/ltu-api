@@ -38,24 +38,42 @@ export class ExamService {
 
   async findMany(query: GetExamDto) {
     try {
-      const { limit = 20, page = 1, type, search } = query;
+      const { limit = 20, page = 1, type, search, sort } = query;
 
       const skip = (page - 1) * limit;
+      const whereCondition = {
+        name: search
+          ? { contains: search, mode: "insensitive" as const }
+          : undefined,
+        type: type ? type : undefined,
+      };
+
+      const orderBy: Record<string, unknown> = {};
+
+      if (sort) {
+        const [name, value] = sort.split("_");
+        orderBy[name] = value;
+      } else {
+        orderBy.createdAt = "desc";
+      }
 
       const exams = await this.prisma.exam.findMany({
-        where: {
-          name: search ? { contains: search, mode: "insensitive" } : undefined,
-          type: type ? type : undefined,
+        where: whereCondition,
+        select: {
+          id: true,
+          name: true,
+          img: true,
+          type: true,
+          createdAt: true,
         },
-        select: { id: true, name: true, img: true, createdAt: true },
         skip,
         take: limit,
-        orderBy: {
-          createdAt: "desc",
-        },
+        orderBy,
       });
 
-      const totalItems = await this.prisma.exam.count();
+      const totalItems = await this.prisma.exam.count({
+        where: whereCondition,
+      });
       const totalPage = Math.ceil(totalItems / limit);
 
       return {

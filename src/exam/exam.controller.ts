@@ -1,17 +1,9 @@
-import {
-  Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
-  Delete,
-} from "@nestjs/common";
+import { Controller, Get, Post, Body, Param, Req } from "@nestjs/common";
 import { ExamService } from "./exam.service";
 import { CreateExamDto } from "./dto/create-exam.dto";
 // import { UpdateExamDto } from "./dto/update-exam.dto";
 import { Public } from "src/auth/public.decorator";
-import { GetExamDto } from "./dto/get-exam.dto";
+import { type Request } from "express";
 
 @Controller("exam")
 export class ExamController {
@@ -26,7 +18,8 @@ export class ExamController {
 
   @Public()
   @Get()
-  async getMany(@Param("query") query: GetExamDto) {
+  async getMany(@Req() req: Request) {
+    const query = req.query;
     const res = await this.examService.findMany(query);
     return res;
   }

@@ -1,5 +1,5 @@
 import { Trim } from "class-sanitizer";
-import { IsNotEmpty, IsString, MinLength } from "class-validator";
+import { IsBoolean, IsNotEmpty, IsString, MinLength } from "class-validator";
 
 export class GetAuthDto {
   @IsString()
@@ -12,4 +12,7 @@ export class GetAuthDto {
   @IsNotEmpty({ message: "Password is required." })
   @Trim()
   password: string;
+
+  @IsBoolean()
+  isRemember: boolean;
 }

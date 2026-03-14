@@ -61,7 +61,7 @@ export class EnrollService {
         data: {
           ...rest,
           status: data.status || "COMPLETED",
-          responses: responses as any as Prisma.InputJsonValue,
+          responses: responses as unknown as Prisma.InputJsonValue,
         },
       });
 
