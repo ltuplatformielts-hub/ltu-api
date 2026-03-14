@@ -24,8 +24,8 @@ export class CreateExamDto {
   timeLimit: number;
 
   @IsArray()
-  @IsString({ each: true })
-  audio: string[];
+  @IsString()
+  audio: string;
 
   @IsArray()
   @IsString({ each: true })

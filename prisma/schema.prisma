@@ -34,7 +34,7 @@ model Exam {
   img           String?
   type          ExamType
   timeLimit     Int      @default(0)
-  audio         String[]
+  audio         String?
   picture       String[]
   sections      Json
   totalQuestion Int
