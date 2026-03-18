@@ -21,11 +21,10 @@ async function bootstrap() {
     credentials: true,
     allowedHeaders: [
       "Content-Type",
-      "Accept",
       "Authorization",
-      "X-Requested-With",
-      "apollo-query-plan",
-      "baggage",
+      "cache-control",
+      "pragma",
+      "expires",
     ],
   });
   app.useGlobalPipes(

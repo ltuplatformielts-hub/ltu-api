@@ -1,5 +1,6 @@
 import { EnrollStatus } from "@prisma/client";
 import {
+  IsDateString,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -9,25 +10,31 @@ import {
 
 export class CreateEnrollDto {
   @IsString()
-  // @IsNotEmpty()
-  @IsOptional()
+  @IsNotEmpty()
   userId: string;
 
   @IsString()
   @IsNotEmpty()
   examId: string;
 
-  @IsNumber()
+  @IsDateString()
   @IsOptional()
-  score: number;
+  startAt?: string;
+
+  @IsDateString()
+  @IsOptional()
+  expectedEnd?: string;
 
   @IsNumber()
   @IsOptional()
-  correctCount: number;
+  duration?: number;
+
+  @IsOptional()
+  attempts: any;
 
   @IsNumber()
   @IsOptional()
-  duration: number;
+  violateCount?: number;
 
   @IsEnum(EnrollStatus)
   @IsOptional()

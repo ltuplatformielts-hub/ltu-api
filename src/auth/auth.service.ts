@@ -85,7 +85,6 @@ export class AuthService {
         });
 
       if (error || !sbUser) {
-        console.log(error?.message);
         throw new UnauthorizedException(error?.message);
       }
 
@@ -95,7 +94,6 @@ export class AuthService {
       );
 
       if (!comparePassword) {
-        console.log("Username/Email or Password incorrect.");
         throw new UnauthorizedException(
           "Username/Email or Password incorrect.",
         );
@@ -112,7 +110,6 @@ export class AuthService {
         password,
       };
     } catch (error) {
-      console.log(error.message);
       if (error instanceof UnauthorizedException)
         throw new UnauthorizedException(error.message);
       throw new InternalServerErrorException(error.message);

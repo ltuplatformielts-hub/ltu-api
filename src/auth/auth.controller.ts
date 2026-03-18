@@ -38,7 +38,7 @@ export class AuthController {
     res.cookie("access_token", access_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: "lax",
       path: "/",
       maxAge: access_time * 1000,
     });
@@ -46,7 +46,7 @@ export class AuthController {
     res.cookie("refresh_token", refresh_token, {
       httpOnly: true,
       secure: process.env.NODE_ENV === "production",
-      sameSite: "none",
+      sameSite: "lax",
       path: "/",
       maxAge: refreshTokenExprise,
     });
@@ -77,7 +77,7 @@ export class AuthController {
   @Post("refresh")
   async refresh(
     @Body("refresh_token") refreshToken: string,
-    @Res() res: Response,
+    @Res({ passthrough: true }) res: Response,
   ) {
     if (!refreshToken)
       throw new UnauthorizedException("The login session has expired.");

@@ -1,25 +1,28 @@
 import { ExamType } from "@prisma/client";
+import { Escape } from "class-sanitizer";
 import { Type } from "class-transformer";
-import { IsEnum, IsOptional, IsString } from "class-validator";
+import { IsEnum, IsOptional, IsString, Min } from "class-validator";
 
-export class GetExamDto {
-  @IsOptional()
-  @IsEnum(ExamType)
-  type?: ExamType;
-
-  @IsOptional()
+export class GetExamsDto {
   @IsString()
+  @IsOptional()
+  @Escape()
   search?: string;
 
+  @IsString()
   @IsOptional()
+  sort?: string;
+
   @Type(() => Number)
+  @IsOptional()
+  @Min(1)
   page?: number;
 
+  @IsEnum(ExamType)
   @IsOptional()
-  @Type(() => Number)
-  limit?: number;
+  type?: ExamType;
 
+  @Type(() => Number)
   @IsOptional()
-  @IsString()
-  sort?: string;
+  limit?: number;
 }

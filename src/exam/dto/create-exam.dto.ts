@@ -1,6 +1,6 @@
 import { ExamType } from "@prisma/client";
+import { Escape } from "class-sanitizer";
 import {
-  IsArray,
   IsEnum,
   IsNotEmpty,
   IsNumber,
@@ -11,35 +11,43 @@ import {
 export class CreateExamDto {
   @IsString()
   @IsNotEmpty()
+  @Escape()
   name: string;
 
-  @IsOptional()
   @IsString()
-  img: string;
+  @IsNumber()
+  @IsOptional()
+  @IsNotEmpty()
+  @Escape()
+  img?: string;
 
   @IsEnum(ExamType)
+  @IsNotEmpty()
   type: ExamType;
 
   @IsNumber()
+  @IsNotEmpty()
   timeLimit: number;
 
-  @IsArray()
   @IsString()
-  audio: string;
+  @IsOptional()
+  @Escape()
+  audio?: string;
 
-  @IsArray()
   @IsString({ each: true })
+  @IsNotEmpty()
+  @Escape()
   picture: string[];
 
-  @IsOptional()
+  @IsNotEmpty()
+  @Escape()
   sections: any;
 
   @IsNumber()
+  @IsNotEmpty()
   totalQuestion: number;
 
   @IsNumber()
+  @IsNotEmpty()
   totalScore: number;
-
-  @IsOptional()
-  enrolls: any;
 }

@@ -60,14 +60,20 @@ model Enroll {
   exam   Exam   @relation(fields: [examId], references: [id])
   user   User   @relation(fields: [userId], references: [id])
 
-  score         Int          @default(0)
-  correctCount  Int          @default(0)
-  duration      Int          @default(0)
-  attemptNumber Int          @default(1)
-  status        EnrollStatus @default(IN_PROGRESS)
-  responses     Json         @default("{}")
-  createdAt     DateTime     @default(now())
-  updatedAt     DateTime     @updatedAt
+  startAt      DateTime?
+  expectedEnd  DateTime?
+  duration     Int       @default(0)
+  timeLimit    Int
+  attempts     Json[]    @default([])
+  violateCount Int       @default(0)
+
+  status    EnrollStatus @default(IN_PROGRESS)
+  responses Json         @default("{}")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([userId, examId])
+  @@index([status])
 }
 
 enum EnrollStatus {
