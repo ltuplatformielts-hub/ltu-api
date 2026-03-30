@@ -38,7 +38,8 @@ export class AuthService {
 
   async create(data: CreateAuthDto) {
     try {
-      const { firstName, lastName, password, email, username, userCode } = data;
+      const { userCode, ...rest } = data;
+      const { firstName, lastName, password, email, username } = rest;
 
       const isExistingUser = await this.prisma.user.findFirst({
         where: { OR: [{ email }, { username }] },
@@ -63,7 +64,7 @@ export class AuthService {
 
       await this.prisma.user.create({
         data: {
-          ...data,
+          ...rest,
           fullName,
           password: hashedPassword,
           id,

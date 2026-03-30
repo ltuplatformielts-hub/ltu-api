@@ -14,7 +14,7 @@ import { AuthService } from "./auth.service";
 import { CreateAuthDto } from "./dto/create-auth.dto";
 import { GetAuthDto } from "./dto/get-auth.dto";
 import { Public } from "./public.decorator";
-import type { Response } from "express";
+import type { Request, Response } from "express";
 import { JwtAuthGuard } from "./jwt-auth.guard";
 
 @Controller("auth")
@@ -76,14 +76,20 @@ export class AuthController {
   @Public()
   @Post("refresh")
   async refresh(
-    @Body("refresh_token") refreshToken: string,
+    @Req() req: Request,
     @Res({ passthrough: true }) res: Response,
   ) {
+    console.log("Refresh is called");
+    const refreshToken: string | undefined = req.cookies?.refresh_token;
+    console.log("Received refresh token:", refreshToken);
     if (!refreshToken)
       throw new UnauthorizedException("The login session has expired.");
 
     const { access_time, access_token, message, user, refresh_token } =
       await this.authService.refresh(refreshToken);
+
+    console.log("Access token refreshed:", access_token);
+    console.log("Refresh token used:", refreshToken);
 
     res.cookie("access_token", access_token, {
       httpOnly: true,

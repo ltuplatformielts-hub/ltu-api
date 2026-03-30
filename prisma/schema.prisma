@@ -14,6 +14,7 @@ model User {
   lastName  String
   fullName  String
   password  String
+  phoneNumber String @default("0000000000")
   role      UserRole @default(GUEST)
   img       String?
   enrolls   Enroll[]
