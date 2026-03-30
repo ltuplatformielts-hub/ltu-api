@@ -14,15 +14,71 @@ model User {
   lastName  String
   fullName  String
   password  String
-  role      UserRole @default(STUDENT)
+  phoneNumber String @default("0000000000")
+  role      UserRole @default(GUEST)
   img       String?
+  enrolls   Enroll[]
   createdAt DateTime @default(now())
-  updatedAt DateTime
-  username  String?  @unique
+  updatedAt DateTime @updatedAt()
+  username  String   @unique
 }
 
 enum UserRole {
+  GUEST
   ADMIN
   STUDENT
-  LECTUTER
+  LECTURER
+}
+
+model Exam {
+  id            String   @id @default(uuid())
+  name          String
+  img           String?
+  type          ExamType
+  timeLimit     Int      @default(0)
+  audio         String?
+  picture       String[]
+  sections      Json
+  totalQuestion Int
+  totalScore    Int
+
+  enrolls Enroll[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt()
+}
+
+enum ExamType {
+  LISTENING
+  READING
+  SPEAKING
+  WRITING
+}
+
+model Enroll {
+  id     String @id @default(uuid())
+  userId String
+  examId String
+  exam   Exam   @relation(fields: [examId], references: [id])
+  user   User   @relation(fields: [userId], references: [id])
+
+  startAt      DateTime?
+  expectedEnd  DateTime?
+  duration     Int       @default(0)
+  timeLimit    Int
+  attempts     Json[]    @default([])
+  violateCount Int       @default(0)
+
+  status    EnrollStatus @default(IN_PROGRESS)
+  responses Json         @default("{}")
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+
+  @@index([userId, examId])
+  @@index([status])
+}
+
+enum EnrollStatus {
+  IN_PROGRESS
+  COMPLETED
 }

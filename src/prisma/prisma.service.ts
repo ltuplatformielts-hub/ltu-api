@@ -8,7 +8,6 @@ export class PrismaService
   implements OnModuleInit, OnModuleDestroy
 {
   constructor() {
-
     const connectionString: string | undefined = process.env.DATABASE_URL;
     if (!connectionString) throw new Error("connectionString is undefined");
 
