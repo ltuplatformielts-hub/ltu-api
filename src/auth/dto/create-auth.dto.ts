@@ -22,6 +22,12 @@ export class CreateAuthDto {
   email: string;
 
   @IsString()
+  @IsNotEmpty({ message: "Phone number is required." })
+  @Trim()
+  @Escape()
+  phoneNumber: string;
+
+  @IsString()
   @IsNotEmpty({ message: "First name is required." })
   @Trim()
   @Escape()
