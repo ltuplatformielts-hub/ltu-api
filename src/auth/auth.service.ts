@@ -19,6 +19,12 @@ const supabaseAnon = process.env.SUPABASE_ANON_KEY;
 if (!supabaseAnon || !supabaseURL)
   throw new Error("supabaseAnon/supabaseURL is undefined");
 
+const UserCode = {
+  "535455": "STUDENT",
+  "4C4543": "LECTURER",
+  "41444D": "ADMIN",
+};
+
 @Injectable()
 export class AuthService {
   private supabase: SupabaseClient;
@@ -32,7 +38,7 @@ export class AuthService {
 
   async create(data: CreateAuthDto) {
     try {
-      const { firstName, lastName, password, email, username } = data;
+      const { firstName, lastName, password, email, username, userCode } = data;
 
       const isExistingUser = await this.prisma.user.findFirst({
         where: { OR: [{ email }, { username }] },
@@ -53,12 +59,15 @@ export class AuthService {
       const hashedPassword: string = await bcrypt.hash(password, 10);
       const fullName = `${lastName.trim()} ${firstName.trim()}`.trim();
 
+      const role = userCode ? UserCode[userCode] : "GUEST";
+
       await this.prisma.user.create({
         data: {
           ...data,
           fullName,
           password: hashedPassword,
           id,
+          role,
         },
       });
 

@@ -14,7 +14,7 @@ model User {
   lastName  String
   fullName  String
   password  String
-  role      UserRole @default(STUDENT)
+  role      UserRole @default(GUEST)
   img       String?
   enrolls   Enroll[]
   createdAt DateTime @default(now())
@@ -23,9 +23,10 @@ model User {
 }
 
 enum UserRole {
+  GUEST
   ADMIN
   STUDENT
-  LECTUTER
+  LECTURER
 }
 
 model Exam {
